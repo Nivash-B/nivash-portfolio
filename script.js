@@ -326,7 +326,7 @@ if (portraitLogoStage && portraitLogoMotion && !reducedLogoMotion) {
     portraitLogoMotion.addEventListener('load', () => portraitLogoStage.classList.add('is-motion-ready'), { once: true });
     portraitLogoMotion.addEventListener('error', () => portraitLogoMotion.remove(), { once: true });
     if (compactLogoLayout) {
-      const mobileAnimationSource = new URL(portraitLogoMotion.dataset.animationSrc, document.baseURI);
+      const mobileAnimationSource = new URL(portraitLogoMotion.dataset.animationMobileSrc, document.baseURI);
       mobileAnimationSource.searchParams.set('play', String(Math.round(performance.timeOrigin)));
       portraitLogoMotion.src = mobileAnimationSource.href;
     } else {
