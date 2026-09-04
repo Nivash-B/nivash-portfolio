@@ -328,7 +328,6 @@ if (projectGrid && projectsToggle) {
   const extraProjectCards = projectCards.slice(initialProjectCount);
   const projectsToggleLabel = projectsToggle.querySelector('.projects-toggle-label');
   const projectsToggleCount = projectsToggle.querySelector('.projects-toggle-count');
-  const projectsToggleIcon = projectsToggle.querySelector('.projects-toggle-icon');
   const workHeading = projectGrid.closest('.work')?.querySelector('.work-heading');
   const lightweightProjects = window.matchMedia('(max-width: 760px), (pointer: coarse)').matches;
   let projectsExpanded = false;
@@ -353,7 +352,6 @@ if (projectGrid && projectsToggle) {
     projectsToggle.setAttribute('aria-expanded', String(projectsExpanded));
     projectsToggleLabel.textContent = projectsExpanded ? 'Show less' : 'View all projects';
     projectsToggleCount.textContent = `${String(projectsExpanded ? totalProjects : initialProjectCount).padStart(2, '0')} / ${String(totalProjects).padStart(2, '0')}`;
-    projectsToggleIcon.textContent = '\u2193';
   };
 
   const scrollToWorkHeading = (reduceMotion) => new Promise((resolve) => {
