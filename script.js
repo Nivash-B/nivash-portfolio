@@ -316,6 +316,7 @@ const portraitLogoMotion = document.querySelector('.portrait-logo-motion');
 const reducedLogoMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if (portraitLogoStage && portraitLogoMotion && !reducedLogoMotion) {
+  const compactLogoLayout = window.matchMedia('(max-width: 980px), (pointer: coarse)').matches;
   let portraitLogoStarted = false;
 
   const startPortraitLogoMotion = () => {
@@ -324,11 +325,15 @@ if (portraitLogoStage && portraitLogoMotion && !reducedLogoMotion) {
     document.body.classList.add('ambient-ready');
     portraitLogoMotion.addEventListener('load', () => portraitLogoStage.classList.add('is-motion-ready'), { once: true });
     portraitLogoMotion.addEventListener('error', () => portraitLogoMotion.remove(), { once: true });
-    portraitLogoMotion.src = portraitLogoMotion.dataset.animationSrc;
+    if (compactLogoLayout) {
+      const mobileAnimationSource = new URL(portraitLogoMotion.dataset.animationSrc, document.baseURI);
+      mobileAnimationSource.searchParams.set('play', String(Math.round(performance.timeOrigin)));
+      portraitLogoMotion.src = mobileAnimationSource.href;
+    } else {
+      portraitLogoMotion.src = portraitLogoMotion.dataset.animationSrc;
+    }
     if (portraitLogoMotion.complete && portraitLogoMotion.naturalWidth > 0) portraitLogoStage.classList.add('is-motion-ready');
   };
-
-  const compactLogoLayout = window.matchMedia('(max-width: 980px), (pointer: coarse)').matches;
 
   if (compactLogoLayout && 'IntersectionObserver' in window) {
     const portraitLogoObserver = new IntersectionObserver(
