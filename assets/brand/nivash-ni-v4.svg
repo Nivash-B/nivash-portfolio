@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Nivash NI monogram</title>
+  <desc id="desc">A clear capital N joined with a capital I.</desc>
+  <g fill="none">
+    <path fill="#AFB89B" d="M24 226V30h43l100 145V30h41v196h-43L65 82v144z"/>
+    <path fill="#FFFDF5" d="M167 30h41v196h-41z"/>
+    <path fill="#FFFDF5" d="M151 18h73v31c0 10-8 18-18 18h-37c-10 0-18-8-18-18z"/>
+    <path fill="#FFFDF5" d="M151 207h73v31h-73z"/>
+  </g>
+</svg>
