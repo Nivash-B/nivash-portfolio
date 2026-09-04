@@ -2,14 +2,14 @@
   font-family: "Cormorant Garamond";
   font-style: normal;
   font-weight: 500 600;
-  font-display: block;
+  font-display: swap;
   src: url("./assets/fonts/cormorant-garamond-subset.woff2") format("woff2");
 }
 @font-face {
   font-family: "Cormorant Garamond";
   font-style: italic;
   font-weight: 500;
-  font-display: block;
+  font-display: swap;
   src: url("./assets/fonts/cormorant-garamond-italic-subset.woff2") format("woff2");
 }
 @font-face {

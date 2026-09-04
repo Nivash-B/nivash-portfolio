@@ -232,7 +232,7 @@ const observer = new IntersectionObserver(
         revealedContent = true;
       }
     });
-    if (revealedContent) requestAnimationFrame(refreshPageScrollRange);
+    if (revealedContent && !pageResizeObserver) requestAnimationFrame(refreshPageScrollRange);
   },
   { threshold: 0.12 }
 );
@@ -280,6 +280,8 @@ document.querySelectorAll('[data-count]').forEach((counter) => {
 
 let scrollFrame;
 let maxPageScroll = 1;
+let observedPageHeight = 0;
+let pageResizeObserver;
 
 function refreshPageScrollRange() {
   maxPageScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
@@ -418,16 +420,28 @@ if (projectGrid && projectsToggle) {
         return;
       }
 
-      let fallbackTimer;
-      const finishScroll = () => {
-        window.removeEventListener('scrollend', finishScroll);
-        window.clearTimeout(fallbackTimer);
+      const duration = Math.min(900, Math.max(650, Math.abs(distance) * 0.14));
+      pageRoot.style.scrollBehavior = 'auto';
+      let startedAt;
+
+      const move = (timestamp) => {
+        startedAt ??= timestamp;
+        const progress = Math.min((timestamp - startedAt) / duration, 1);
+        const eased = progress < 0.5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+        window.scrollTo(0, Math.round(startPosition + distance * eased));
+
+        if (progress < 1) {
+          window.requestAnimationFrame(move);
+          return;
+        }
+
+        pageRoot.style.scrollBehavior = previousScrollBehavior;
         resolve();
       };
 
-      window.addEventListener('scrollend', finishScroll, { once: true });
-      fallbackTimer = window.setTimeout(finishScroll, 1050);
-      window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+      window.requestAnimationFrame(move);
       return;
     }
 
@@ -573,12 +587,23 @@ if (window.matchMedia('(hover: none)').matches) {
   });
 }
 
-refreshPageScrollRange();
-updateScrollDetails();
-window.addEventListener('load', refreshPageScrollRange, { once: true });
-document.fonts?.ready.then(refreshPageScrollRange);
-window.addEventListener('resize', () => requestAnimationFrame(() => {
+if ('ResizeObserver' in window) {
+  pageResizeObserver = new ResizeObserver((entries) => {
+    const entry = entries[0];
+    const borderBox = Array.isArray(entry.borderBoxSize) ? entry.borderBoxSize[0] : entry.borderBoxSize;
+    observedPageHeight = Math.ceil(borderBox?.blockSize || entry.contentRect.height);
+    maxPageScroll = Math.max(1, observedPageHeight - window.innerHeight);
+    updateScrollDetails();
+  });
+  pageResizeObserver.observe(document.body);
+} else {
   refreshPageScrollRange();
+  window.addEventListener('load', refreshPageScrollRange, { once: true });
+  document.fonts?.ready.then(refreshPageScrollRange);
+}
+window.addEventListener('resize', () => requestAnimationFrame(() => {
+  if (pageResizeObserver) maxPageScroll = Math.max(1, observedPageHeight - window.innerHeight);
+  else refreshPageScrollRange();
   updateScrollDetails();
 }), { passive: true });
 document.getElementById('year').textContent = new Date().getFullYear();
