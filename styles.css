@@ -494,20 +494,6 @@ p { text-wrap: pretty; }
   :root { --shell: min(100% - 48px, 760px); }
   .hero-reveal { opacity: 1; animation: none; }
   .hero h1 em::after { animation-delay: .15s; animation-duration: .7s; }
-  .portrait-frame,
-  .portrait-frame::after,
-  .scorpio-constellation,
-  .scorpio-constellation path,
-  .scorpio-constellation .constellation-signal,
-  .scorpio-constellation i,
-  .portrait-label strong::before { animation-play-state: paused; }
-  body.ambient-ready .portrait-frame,
-  body.ambient-ready .portrait-frame::after,
-  body.ambient-ready .scorpio-constellation,
-  body.ambient-ready .scorpio-constellation path,
-  body.ambient-ready .scorpio-constellation .constellation-signal,
-  body.ambient-ready .scorpio-constellation i,
-  body.ambient-ready .portrait-label strong::before { animation-play-state: running; }
   .site-header { left: max(24px, calc((100vw - 760px)/2)); width: var(--shell); height: 86px; padding-inline: 0; }
   .site-header.is-scrolled { top: 10px; height: 60px; padding: 0 12px; }
   .brand-logo-mark { height: 68px; }

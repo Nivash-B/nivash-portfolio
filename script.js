@@ -320,7 +320,9 @@ if (portraitLogoStage && portraitLogoMotion && !reducedLogoMotion) {
     window.setTimeout(() => {
       document.body.classList.add('ambient-ready');
       portraitLogoMotion.addEventListener('load', () => portraitLogoStage.classList.add('is-motion-ready'), { once: true });
-      portraitLogoMotion.data = portraitLogoMotion.dataset.animationSrc;
+      portraitLogoMotion.addEventListener('error', () => portraitLogoMotion.remove(), { once: true });
+      portraitLogoMotion.src = portraitLogoMotion.dataset.animationSrc;
+      if (portraitLogoMotion.complete && portraitLogoMotion.naturalWidth > 0) portraitLogoStage.classList.add('is-motion-ready');
     }, 9000);
   }, { once: true });
 } else if (portraitLogoMotion) {
