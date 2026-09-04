@@ -36,10 +36,10 @@
 
 * { box-sizing: border-box; }
 ::selection { background: var(--gold); color: var(--ink); }
-html { scroll-behavior: smooth; overflow-x: clip; overscroll-behavior-y: none; background-color: var(--ink); }
+html { scroll-behavior: smooth; overflow-x: clip; overscroll-behavior-y: none; background-color: var(--ink); color-scheme: dark; }
 body {
   margin: 0;
-  background: var(--paper);
+  background: var(--ink);
   color: var(--ink);
   font-family: var(--sans);
   font-size: 16px;
@@ -50,6 +50,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
+main { background: var(--paper); }
 .skip-link { position: fixed; z-index: 100; top: 14px; left: 16px; padding: 10px 15px; border-radius: 999px; background: var(--paper-bright); color: var(--ink); font-size: 12px; font-weight: 600; box-shadow: 0 10px 28px rgba(10,18,8,.2); transform: translateY(-160%); transition: transform .2s ease; }
 .skip-link:focus { transform: translateY(0); }
 html.menu-open, body.menu-open { overflow: hidden; overscroll-behavior: none; }
