@@ -36,7 +36,7 @@
 
 * { box-sizing: border-box; }
 ::selection { background: var(--gold); color: var(--ink); }
-html { scroll-behavior: smooth; overflow-x: clip; overscroll-behavior-y: none; }
+html { scroll-behavior: smooth; overflow-x: clip; overscroll-behavior-y: none; background-color: var(--ink); }
 body {
   margin: 0;
   background: var(--paper);
