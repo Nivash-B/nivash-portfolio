@@ -600,8 +600,10 @@ p { text-wrap: pretty; }
   .portrait-frame { aspect-ratio: 1; }
   .visual-note { margin-top: 20px; font-size: 12px; line-height: 1.55; }
   .hero-index { bottom: 28px; }
-  .portrait-label { padding: 17px; }
-  .portrait-label span { display: none; }
+  .portrait-label { padding: 17px 15px; gap: 12px; }
+  .portrait-label span { display: block; flex: 0 0 auto; font-size: 9px; letter-spacing: .1em; }
+  .portrait-label strong { min-width: 0; display: inline-flex; align-items: center; justify-content: flex-end; font-size: 10.5px; white-space: nowrap; }
+  .portrait-label strong::before { flex: 0 0 6px; width: 6px; margin-right: 7px; }
   .intro-band, .expertise, .experience { padding: 95px 0 46px; }
   .product-flow { margin-top: 46px; padding: 10px; border-radius: 20px; }
   .flow-node { min-height: 96px; padding: 18px; }
