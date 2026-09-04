@@ -527,7 +527,22 @@ p { text-wrap: pretty; }
   .hero h1 { max-width: 760px; }
   .hero-visual { width: min(520px, 80vw); margin-inline: auto; }
   .portrait-frame { width: 100%; aspect-ratio: 1.25; }
-  .visual-note, .hero-index { display: none; }
+  .visual-note {
+    display: block;
+    width: 100%;
+    margin-top: 22px;
+    padding-inline: 8px;
+    text-align: center;
+  }
+  .hero-index {
+    z-index: 2;
+    right: auto;
+    bottom: 30px;
+    left: 50%;
+    display: flex;
+    transform: translateX(-50%);
+  }
+  .hero-index div { width: 86px; }
   .intro-grid { grid-template-columns: 1fr; }
   .intro-statement { margin-top: 30px; }
   .stats { grid-column: 1; }
@@ -583,6 +598,8 @@ p { text-wrap: pretty; }
   .hero-actions { width: 100%; align-items: flex-start; flex-direction: column; gap: 18px; }
   .hero-actions .button, .hero-actions .text-link { width: min(100%, 270px); justify-content: space-between; }
   .portrait-frame { aspect-ratio: 1; }
+  .visual-note { margin-top: 20px; font-size: 12px; line-height: 1.55; }
+  .hero-index { bottom: 28px; }
   .portrait-label { padding: 17px; }
   .portrait-label span { display: none; }
   .intro-band, .expertise, .experience { padding: 95px 0 46px; }
