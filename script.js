@@ -316,15 +316,35 @@ const portraitLogoMotion = document.querySelector('.portrait-logo-motion');
 const reducedLogoMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if (portraitLogoStage && portraitLogoMotion && !reducedLogoMotion) {
-  window.addEventListener('load', () => {
-    window.setTimeout(() => {
-      document.body.classList.add('ambient-ready');
-      portraitLogoMotion.addEventListener('load', () => portraitLogoStage.classList.add('is-motion-ready'), { once: true });
-      portraitLogoMotion.addEventListener('error', () => portraitLogoMotion.remove(), { once: true });
-      portraitLogoMotion.src = portraitLogoMotion.dataset.animationSrc;
-      if (portraitLogoMotion.complete && portraitLogoMotion.naturalWidth > 0) portraitLogoStage.classList.add('is-motion-ready');
-    }, 9000);
-  }, { once: true });
+  let portraitLogoStarted = false;
+
+  const startPortraitLogoMotion = () => {
+    if (portraitLogoStarted) return;
+    portraitLogoStarted = true;
+    document.body.classList.add('ambient-ready');
+    portraitLogoMotion.addEventListener('load', () => portraitLogoStage.classList.add('is-motion-ready'), { once: true });
+    portraitLogoMotion.addEventListener('error', () => portraitLogoMotion.remove(), { once: true });
+    portraitLogoMotion.src = portraitLogoMotion.dataset.animationSrc;
+    if (portraitLogoMotion.complete && portraitLogoMotion.naturalWidth > 0) portraitLogoStage.classList.add('is-motion-ready');
+  };
+
+  const compactLogoLayout = window.matchMedia('(max-width: 980px), (pointer: coarse)').matches;
+
+  if (compactLogoLayout && 'IntersectionObserver' in window) {
+    const portraitLogoObserver = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        portraitLogoObserver.disconnect();
+        window.setTimeout(startPortraitLogoMotion, 250);
+      },
+      { rootMargin: '0px', threshold: 0.35 }
+    );
+    portraitLogoObserver.observe(portraitLogoStage);
+  } else {
+    window.addEventListener('load', () => {
+      window.setTimeout(startPortraitLogoMotion, compactLogoLayout ? 250 : 9000);
+    }, { once: true });
+  }
 } else if (portraitLogoMotion) {
   portraitLogoMotion.remove();
 }
