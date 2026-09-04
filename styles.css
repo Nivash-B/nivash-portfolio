@@ -179,8 +179,8 @@ p { text-wrap: pretty; }
 .scorpio-constellation i:last-of-type { width: 8px; background: #eef2e3; box-shadow: 0 0 0 5px rgba(217,225,200,.06), 0 0 20px rgba(217,225,200,.55); }
 .portrait-orbit { position: absolute; z-index: 1; border: 1px solid rgba(204,214,181,.24); border-radius: 50%; will-change: transform, opacity; }
 .portrait-orbit::after { content: ""; position: absolute; top: 50%; right: -4px; width: 7px; aspect-ratio: 1; border: 1px solid rgba(255,255,255,.42); border-radius: 50%; background: #b8c59f; box-shadow: 0 0 0 5px rgba(184,197,159,.08), 0 0 18px rgba(184,197,159,.42); transform: translateY(-50%); }
-.orbit-one { width: 86%; aspect-ratio: 1; animation: orbitOne 14s linear infinite; }
-.orbit-two { width: 85%; aspect-ratio: 1; animation: orbitTwo 10s linear infinite reverse; }
+.orbit-one { width: 78%; aspect-ratio: 1; animation: orbitOne 14s linear infinite; }
+.orbit-two { width: 74%; aspect-ratio: 1; animation: orbitTwo 10s linear infinite reverse; }
 .portrait-label { position: absolute; z-index: 3; bottom: 0; left: 0; right: 0; padding: 22px 26px; background: rgba(27,36,24,.8); backdrop-filter: blur(9px); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,.1); }
 .portrait-label span { color: #a8b09f; font-size: 11px; text-transform: uppercase; letter-spacing: .12em; }
 .portrait-label strong { font-size: 12px; font-weight: 500; }
@@ -598,7 +598,6 @@ p { text-wrap: pretty; }
   .hero-actions { width: 100%; align-items: flex-start; flex-direction: column; gap: 18px; }
   .hero-actions .button, .hero-actions .text-link { width: min(100%, 270px); justify-content: space-between; }
   .portrait-frame { aspect-ratio: 1; }
-  .orbit-two { width: 82%; }
   .visual-note { margin-top: 20px; font-size: 12px; line-height: 1.55; }
   .hero-index { bottom: 28px; }
   .portrait-label { padding: 17px 15px; gap: 12px; }
