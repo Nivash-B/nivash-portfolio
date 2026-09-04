@@ -468,6 +468,7 @@ p { text-wrap: pretty; }
 @keyframes sectionSignalReverse { 0%, 52% { opacity: 0; transform: scaleX(0); } 56% { opacity: 1; transform: scaleX(0); } 92%, 97% { opacity: 1; transform: scaleX(1); } 100% { opacity: 0; transform: scaleX(1); } }
 @keyframes sectionSignalDot { 0% { left: 3px; opacity: .35; transform: translate(-50%, -50%) scale(.72); } 8% { opacity: 1; transform: translate(-50%, -50%) scale(.9); } 44% { left: calc(100% - 3px); opacity: 1; transform: translate(-50%, -50%) scale(1); } 50% { left: calc(100% - 3px); opacity: 1; transform: translate(-50%, -50%) scale(1.22); } 56% { left: calc(100% - 3px); opacity: 1; transform: translate(-50%, -50%) scale(1); } 92% { left: 3px; opacity: 1; transform: translate(-50%, -50%) scale(.9); } 100% { left: 3px; opacity: .35; transform: translate(-50%, -50%) scale(.72); } }
 @keyframes timelineSignal { 0% { top: 10px; opacity: 0; transform: scale(.7); } 12% { opacity: .9; } 50% { opacity: 1; transform: scale(1); } 88% { opacity: .85; } 100% { top: calc(100% - 15px); opacity: 0; transform: scale(.72); } }
+@keyframes timelineSignalMobile { 0% { top: 10px; opacity: .52; transform: scale(.82); } 50% { opacity: 1; transform: scale(1.12); } 100% { top: calc(100% - 15px); opacity: .62; transform: scale(.9); } }
 @keyframes contactOrbit { 0%, 100% { opacity: .45; transform: translate3d(0, 0, 0) scale(.94); } 50% { opacity: .9; transform: translate3d(34px, -18px, 0) scale(1.05); } }
 @keyframes contactGlow { 0%, 100% { opacity: .5; transform: translate3d(0, 0, 0) scale(.9); } 50% { opacity: 1; transform: translate3d(-30px, -24px, 0) scale(1.08); } }
 @keyframes portraitFloat { 0%, 100% { transform: translateY(0) rotate(-.2deg); } 50% { transform: translateY(-9px) rotate(.2deg); } }
@@ -699,15 +700,22 @@ p { text-wrap: pretty; }
 }
 
 @media (max-width: 760px), (pointer: coarse) {
+  .intro-band, .expertise, .work, .experience, .contact, .site-footer { content-visibility: visible; }
   .project-grid.is-toggling { overflow: visible; }
   .project-card.reveal,
   .project-card.reveal.is-visible { filter: none; transform: none; transition: opacity .24s ease, border-color .24s ease, box-shadow .24s ease; }
   .project-image-wrap::before { display: none; }
-  .section-kicker::before,
   .section-signal.is-visible > i::before,
   .section-signal.is-visible > i > b,
   .section-signal.is-visible > i::after,
-  .timeline.is-visible::after,
+  .timeline.is-visible::after { animation: none; }
+  .section-signal.is-motion-active > i::after { opacity: .35; }
+  .section-signal.is-visible.is-motion-active > i::before { animation: sectionSignalForward 6.4s ease-in-out 0s infinite both; }
+  .section-signal.is-visible.is-motion-active > i > b { animation: sectionSignalReverse 6.4s ease-in-out 0s infinite both; }
+  .section-signal.is-visible.is-motion-active > i::after { animation: sectionSignalDot 6.4s ease-in-out 0s infinite both; }
+  .timeline.is-visible.is-motion-active::after { animation: timelineSignalMobile 5.8s ease-in-out .12s infinite alternate; }
+  .timeline-dot { background: #748568; box-shadow: 0 0 0 1px #748568, 0 0 0 5px rgba(116,133,104,.11); }
+  .section-kicker::before,
   .contact::before,
   .contact::after,
   .contact-marquee { animation: none !important; }

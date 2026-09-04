@@ -239,6 +239,15 @@ const observer = new IntersectionObserver(
 
 document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
 
+const ambientMotionObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => entry.target.classList.toggle('is-motion-active', entry.isIntersecting));
+  },
+  { rootMargin: '12% 0px 12% 0px', threshold: 0.04 }
+);
+
+document.querySelectorAll('.section-signal, .timeline').forEach((element) => ambientMotionObserver.observe(element));
+
 const counterObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
