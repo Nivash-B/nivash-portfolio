@@ -700,6 +700,14 @@ p { text-wrap: pretty; }
 }
 
 @media (max-width: 760px), (pointer: coarse) {
+  .portrait-frame,
+  .portrait-frame::after,
+  .scorpio-constellation,
+  .scorpio-constellation path,
+  .scorpio-constellation .constellation-signal,
+  .scorpio-constellation i,
+  .portrait-orbit,
+  .portrait-label strong::before { animation: none !important; }
   .project-grid.is-toggling { overflow: visible; }
   .project-card.reveal,
   .project-card.reveal.is-visible { filter: none; transform: none; transition: opacity .24s ease, border-color .24s ease, box-shadow .24s ease; }

@@ -305,9 +305,8 @@ if (window.matchMedia('(pointer: fine)').matches) {
 const portraitLogoStage = document.querySelector('.portrait-logo-stage');
 const portraitLogoMotion = document.querySelector('.portrait-logo-motion');
 const reducedLogoMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const mobileLogoMotion = window.matchMedia('(max-width: 760px), (pointer: coarse)').matches;
 
-if (portraitLogoStage && portraitLogoMotion && !reducedLogoMotion && !mobileLogoMotion) {
+if (portraitLogoStage && portraitLogoMotion && !reducedLogoMotion) {
   window.addEventListener('load', () => {
     window.setTimeout(() => {
       document.body.classList.add('ambient-ready');
