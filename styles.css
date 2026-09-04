@@ -144,6 +144,7 @@ p { text-wrap: pretty; }
 .button:hover { border-color: transparent; transform: none; box-shadow: 0 10px 28px rgba(10,18,8,.16); }
 .button:hover::before { transform: scaleX(1); }
 .button > span { width: 39px; height: 39px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 50%; transition: background .3s ease, color .3s ease, transform .35s ease; }
+.text-arrow { font-family: Arial, sans-serif; font-variant-emoji: text; font-style: normal; }
 .button:hover > span { transform: rotate(45deg); }
 .button-primary { background: var(--gold); color: var(--ink); }
 .button-primary > span { background: var(--ink); color: var(--paper-bright); }
