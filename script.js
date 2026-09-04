@@ -7,8 +7,20 @@ const navigation = document.querySelector('.site-nav');
 const siteHeader = document.querySelector('.site-header');
 const progressBar = document.querySelector('.scroll-progress span');
 const hero = document.querySelector('.hero');
+const heroVisual = document.querySelector('.hero-visual');
 const menuBackground = document.querySelectorAll('.skip-link, main, .site-footer');
 let menuScrollPosition = 0;
+
+if (heroVisual && window.matchMedia('(max-width: 980px)').matches && 'IntersectionObserver' in window) {
+  const heroVisualObserver = new IntersectionObserver((entries) => {
+    if (!entries.some((entry) => entry.isIntersecting)) return;
+    heroVisual.classList.add('is-rendered');
+    heroVisualObserver.disconnect();
+  }, { rootMargin: '0px', threshold: 0 });
+  heroVisualObserver.observe(heroVisual);
+} else {
+  heroVisual?.classList.add('is-rendered');
+}
 
 function closeMenu() {
   const wasOpen = document.body.classList.contains('menu-open');
@@ -543,7 +555,6 @@ const actionTargets = document.querySelectorAll('a[href], button:not([disabled])
 
 actionTargets.forEach((target) => {
   let pressTimer;
-  target.classList.add('action-control');
 
   const press = () => {
     clearTimeout(pressTimer);
