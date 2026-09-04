@@ -204,6 +204,27 @@ document.querySelectorAll('[data-scroll-top]').forEach((link) => {
 
 window.addEventListener('wheel', cancelPageScroll, { passive: true });
 window.addEventListener('touchstart', cancelPageScroll, { passive: true });
+
+// iOS Safari can ignore CSS overscroll containment on the root scroller.
+// Block only outward swipes at the document boundaries; normal page and menu
+// scrolling remain untouched.
+let boundaryTouchY = 0;
+document.addEventListener('touchstart', (event) => {
+  if (event.touches.length === 1) boundaryTouchY = event.touches[0].clientY;
+}, { passive: true });
+document.addEventListener('touchmove', (event) => {
+  if (!event.cancelable || event.touches.length !== 1 || event.target.closest?.('.site-nav.is-open')) return;
+
+  const currentTouchY = event.touches[0].clientY;
+  const movementY = currentTouchY - boundaryTouchY;
+  const maximumScrollY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  const movingPastTop = window.scrollY <= 0 && movementY > 0;
+  const movingPastBottom = window.scrollY >= maximumScrollY - 1 && movementY < 0;
+
+  boundaryTouchY = currentTouchY;
+  if (movingPastTop || movingPastBottom) event.preventDefault();
+}, { passive: false });
+
 document.addEventListener('keydown', (event) => {
   if (!document.body.classList.contains('menu-open')) return;
 
