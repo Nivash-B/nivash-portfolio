@@ -246,7 +246,7 @@ const ambientMotionObserver = new IntersectionObserver(
   { rootMargin: '12% 0px 12% 0px', threshold: 0.04 }
 );
 
-document.querySelectorAll('.section-signal, .timeline').forEach((element) => ambientMotionObserver.observe(element));
+document.querySelectorAll('.section-signal, .timeline, .contact-marquee').forEach((element) => ambientMotionObserver.observe(element));
 
 const counterObserver = new IntersectionObserver(
   (entries) => {
