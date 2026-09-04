@@ -1,3 +1,7 @@
+if (window.location.hash === '#top') {
+  history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+}
+
 const menuButton = document.querySelector('.menu-button');
 const navigation = document.querySelector('.site-nav');
 const siteHeader = document.querySelector('.site-header');
@@ -177,6 +181,15 @@ document.querySelectorAll('a[href^="#"]:not(.skip-link)').forEach((link) => {
   });
 });
 
+document.querySelectorAll('[data-scroll-top]').forEach((link) => {
+  link.addEventListener('click', (event) => {
+    event.preventDefault();
+    closeMenu();
+    history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+    scrollPageTo(0, refreshPageScrollRange);
+  });
+});
+
 window.addEventListener('wheel', cancelPageScroll, { passive: true });
 window.addEventListener('touchstart', cancelPageScroll, { passive: true });
 document.addEventListener('keydown', (event) => {
@@ -306,10 +319,6 @@ if (portraitLogoStage && portraitLogoMotion && !reducedLogoMotion && !mobileLogo
   portraitLogoMotion.remove();
 }
 
-if (window.location.hash === '#top') {
-  history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
-}
-
 const projectGrid = document.getElementById('project-grid');
 const projectsToggle = document.querySelector('.projects-toggle');
 
@@ -322,12 +331,13 @@ if (projectGrid && projectsToggle) {
   const projectsToggleCount = projectsToggle.querySelector('.projects-toggle-count');
   const projectsToggleIcon = projectsToggle.querySelector('.projects-toggle-icon');
   const workHeading = projectGrid.closest('.work')?.querySelector('.work-heading');
+  const lightweightProjects = window.matchMedia('(max-width: 760px), (pointer: coarse)').matches;
   let projectsExpanded = false;
   let projectsBusy = false;
 
   const animateProjectGridHeight = async (fromHeight, toHeight) => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion || Math.abs(fromHeight - toHeight) < 2) return;
+    if (lightweightProjects || reduceMotion || Math.abs(fromHeight - toHeight) < 2) return;
 
     projectGrid.classList.add('is-toggling');
     const animation = projectGrid.animate(
@@ -367,6 +377,27 @@ if (projectGrid && projectsToggle) {
     const distance = targetPosition - startPosition;
     const pageRoot = document.documentElement;
     const previousScrollBehavior = pageRoot.style.scrollBehavior;
+
+    if (lightweightProjects) {
+      if (reduceMotion || Math.abs(distance) < 2) {
+        window.scrollTo({ top: targetPosition, behavior: 'auto' });
+        resolve();
+        return;
+      }
+
+      let fallbackTimer;
+      const finishScroll = () => {
+        window.removeEventListener('scrollend', finishScroll);
+        window.clearTimeout(fallbackTimer);
+        resolve();
+      };
+
+      window.addEventListener('scrollend', finishScroll, { once: true });
+      fallbackTimer = window.setTimeout(finishScroll, 1050);
+      window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+      return;
+    }
+
     pageRoot.style.scrollBehavior = 'auto';
 
     if (reduceMotion || Math.abs(distance) < 2) {
@@ -414,7 +445,7 @@ if (projectGrid && projectsToggle) {
       });
       const nextHeight = projectGrid.offsetHeight;
 
-      const enterAnimations = reduceMotion ? [] : extraProjectCards.map((card, index) => card.animate(
+      const enterAnimations = reduceMotion || lightweightProjects ? [] : extraProjectCards.map((card, index) => card.animate(
         [
           { opacity: 0, filter: 'blur(5px)', transform: 'translateY(42px) scale(.975)' },
           { opacity: 1, filter: 'blur(0)', transform: 'translateY(0) scale(1)' }
@@ -432,7 +463,7 @@ if (projectGrid && projectsToggle) {
     } else {
       await scrollToWorkHeading(reduceMotion);
 
-      const exitAnimations = reduceMotion ? [] : [...extraProjectCards].reverse().map((card, index) => card.animate(
+      const exitAnimations = reduceMotion || lightweightProjects ? [] : [...extraProjectCards].reverse().map((card, index) => card.animate(
         [
           { opacity: 1, filter: 'blur(0)', transform: 'translateY(0) scale(1)' },
           { opacity: 0, filter: 'blur(4px)', transform: 'translateY(24px) scale(.985)' }

@@ -699,6 +699,21 @@ p { text-wrap: pretty; }
   .skill-pills span.is-touch-active { color: var(--ink); transform: translateY(-2px); }
 }
 
+@media (max-width: 760px), (pointer: coarse) {
+  .project-grid.is-toggling { overflow: visible; }
+  .project-card.reveal,
+  .project-card.reveal.is-visible { filter: none; transform: none; transition: opacity .24s ease, border-color .24s ease, box-shadow .24s ease; }
+  .project-image-wrap::before { display: none; }
+  .section-kicker::before,
+  .section-signal.is-visible > i::before,
+  .section-signal.is-visible > i > b,
+  .section-signal.is-visible > i::after,
+  .timeline.is-visible::after,
+  .contact::before,
+  .contact::after,
+  .contact-marquee { animation: none !important; }
+}
+
 .button.action-control.is-pressing,
 .nav-contact.action-control.is-pressing,
 .menu-button.action-control.is-pressing,
