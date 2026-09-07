@@ -223,7 +223,7 @@ p { text-wrap: pretty; }
 .section-signal.is-visible > i > b { animation: sectionSignalReverse 6.4s ease-in-out .72s infinite; }
 .section-signal.is-visible > i::after { animation: sectionSignalDot 6.4s ease-in-out .72s infinite; }
 
-.expertise { position: relative; padding: 135px 0 78px; background: var(--paper); }
+.expertise { position: relative; padding: 135px 0 78px; background: var(--paper-bright); }
 .expertise::before { content: "FULL STACK"; position: absolute; right: 1.5vw; top: 24px; color: rgba(70,84,62,.035); font-family: var(--serif); font-size: clamp(90px, 13vw, 190px); line-height: 1; letter-spacing: -.05em; pointer-events: none; }
 .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 50px; }
 .section-heading .section-kicker { margin-bottom: 18px; }
