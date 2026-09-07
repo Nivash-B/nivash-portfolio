@@ -202,30 +202,34 @@ document.querySelectorAll('[data-scroll-top]').forEach((link) => {
   });
 });
 
+let wheelScrollFrame;
+let pendingWheelMovement = 0;
+
 window.addEventListener('wheel', (event) => {
   cancelPageScroll();
-  if (document.body.classList.contains('menu-open') || event.ctrlKey || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+  if (
+    !event.cancelable
+    || document.body.classList.contains('menu-open')
+    || event.ctrlKey
+    || Math.abs(event.deltaY) <= Math.abs(event.deltaX)
+  ) return;
 
-  const startingScrollY = window.scrollY;
+  event.preventDefault();
   const deltaMultiplier = event.deltaMode === WheelEvent.DOM_DELTA_LINE
-    ? 16
+    ? 42
     : event.deltaMode === WheelEvent.DOM_DELTA_PAGE
-      ? window.innerHeight
-      : 1;
-  const intendedMovement = event.deltaY * deltaMultiplier;
+      ? window.innerHeight * .9
+      : 1.65;
+  const movement = event.deltaY * deltaMultiplier;
+  pendingWheelMovement += Math.sign(movement) * Math.min(Math.abs(movement), window.innerHeight * .9);
 
-  // Native scrolling normally happens before this frame. Safari occasionally
-  // drops trackpad wheel movement after an animated/programmatic scroll; only
-  // provide a fallback when the document did not move at all.
-  requestAnimationFrame(() => {
-    if (Math.abs(window.scrollY - startingScrollY) >= 1) return;
-    const maximumScrollY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-    const canMove = intendedMovement > 0
-      ? startingScrollY < maximumScrollY - 1
-      : startingScrollY > 1;
-    if (canMove) window.scrollBy({ top: intendedMovement, behavior: 'auto' });
+  if (wheelScrollFrame) return;
+  wheelScrollFrame = requestAnimationFrame(() => {
+    window.scrollBy({ top: pendingWheelMovement, behavior: 'auto' });
+    pendingWheelMovement = 0;
+    wheelScrollFrame = undefined;
   });
-}, { passive: true });
+}, { passive: false });
 window.addEventListener('touchstart', cancelPageScroll, { passive: true });
 
 // iOS Safari can ignore CSS overscroll containment on the root scroller.
