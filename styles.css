@@ -607,7 +607,7 @@ p { text-wrap: pretty; }
   .portrait-label strong { min-width: 0; display: inline-flex; align-items: center; justify-content: flex-end; font-size: 10.5px; white-space: nowrap; }
   .portrait-label strong::before { flex: 0 0 6px; width: 6px; margin-right: 7px; }
   .intro-band, .expertise, .experience { padding: 95px 0 46px; }
-  .product-flow { margin-top: 46px; padding: 10px; border-radius: 20px; }
+  .product-flow { margin-top: 46px; padding: 10px; border-color: transparent; border-radius: 20px; background: transparent; box-shadow: none; }
   .flow-node { min-height: 96px; padding: 18px; }
   .flow-node strong { font-size: 27px; }
   .intro-statement h2, .section-heading h2, .contact h2 { font-size: 43px; }
