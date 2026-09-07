@@ -254,19 +254,18 @@ p { text-wrap: pretty; }
 .expertise-row:nth-child(1), .expertise-row:nth-child(3) { grid-template-columns: minmax(340px, .92fr) minmax(0, 1.08fr) auto; grid-template-rows: auto 1fr auto; column-gap: 26px; }
 .expertise-row:nth-child(2) { grid-template-columns: minmax(0, 1.08fr) auto minmax(340px, .92fr); grid-template-rows: auto 1fr auto; column-gap: 26px; background: var(--ink-soft); color: var(--paper-bright); border-color: rgba(255,255,255,.08); box-shadow: 0 20px 52px rgba(27,36,24,.18); }
 .expertise-row:nth-child(3) { background: #e6eadf; }
-.expertise-row, .expertise-row:nth-child(2), .expertise-row:nth-child(3) { overflow: visible; border-color: transparent; border-radius: 0; background: transparent; color: var(--ink); box-shadow: none; }
-.expertise-row::before { display: none; }
+.expertise-row, .expertise-row:nth-child(2) { box-shadow: none; }
 .expertise-list.is-visible .expertise-row { opacity: 1; transform: translateY(0) scale(1); }
 .expertise-list.is-visible .expertise-row:nth-child(1) { transition-delay: .06s; }
 .expertise-list.is-visible .expertise-row:nth-child(2) { transition-delay: .18s; }
 .expertise-list.is-visible .expertise-row:nth-child(3) { transition-delay: .3s; }
-.expertise-list.is-visible .expertise-row:hover { transform: translateY(-8px) scale(1.012); border-color: transparent; box-shadow: none; transition-delay: 0s; }
+.expertise-list.is-visible .expertise-row:hover { transform: translateY(-8px) scale(1.012); border-color: rgba(77,94,66,.28); box-shadow: none; transition-delay: 0s; }
 .expertise-list.is-visible .expertise-row:nth-child(2):hover { transform: translateY(-8px) scale(1.012); }
 .row-number { align-self: center; padding-left: 4px; color: #6c7664; font-size: 9px; font-weight: 600; letter-spacing: .16em; }
-.expertise-row:nth-child(2) .row-number { color: var(--muted); }
+.expertise-row:nth-child(2) .row-number { color: #c5cebc; }
 .expertise-icon { grid-column: 2; width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid rgba(54,70,47,.16); border-radius: 50%; color: #667659; background: rgba(255,255,255,.46); font-family: var(--serif); font-size: 14px; transition: transform .45s ease, background .35s ease, color .35s ease; }
 .expertise-row:hover .expertise-icon { transform: rotate(12deg); background: var(--ink-soft); color: var(--paper-bright); }
-.expertise-row:nth-child(2) .expertise-icon { border-color: rgba(54,70,47,.16); background: rgba(255,255,255,.46); color: #667659; }
+.expertise-row:nth-child(2) .expertise-icon { border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.08); color: #dce4d4; }
 .expertise-row:nth-child(2):hover .expertise-icon { background: var(--gold); color: var(--ink); }
 .expertise-row:nth-child(1) .row-number, .expertise-row:nth-child(3) .row-number { grid-column: 2; grid-row: 1; }
 .expertise-row:nth-child(2) .row-number { grid-column: 1; grid-row: 1; }
@@ -294,15 +293,15 @@ p { text-wrap: pretty; }
 .expertise-row h3 { margin: 0 0 8px; font-family: var(--serif); font-size: clamp(25px, 2vw, 31px); font-weight: 500; line-height: 1.08; letter-spacing: -.015em; }
 .expertise-row:nth-child(1) h3, .expertise-row:nth-child(2) h3, .expertise-row:nth-child(3) h3 { font-size: clamp(28px, 2.5vw, 36px); }
 .expertise-row p { max-width: 360px; min-height: 40px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.65; }
-.expertise-row:nth-child(2) p { color: var(--muted); }
+.expertise-row:nth-child(2) p { color: #c5cebc; }
 .skill-pills { display: flex; justify-content: flex-start; align-content: flex-start; flex-wrap: wrap; gap: 8px 14px; margin: 0 3px; padding-top: 13px; border-top: 1px solid var(--line); }
 .expertise-row:nth-child(1) .skill-pills, .expertise-row:nth-child(3) .skill-pills { grid-column: 2 / 4; grid-row: 3; }
-.expertise-row:nth-child(2) .skill-pills { grid-column: 1 / 3; grid-row: 3; border-color: var(--line); }
+.expertise-row:nth-child(2) .skill-pills { grid-column: 1 / 3; grid-row: 3; border-color: rgba(255,255,255,.14); }
 .skill-pills span { position: relative; padding: 0; border: 0; border-radius: 0; color: #596653; font-size: 8.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; transition: color .25s ease, transform .25s ease; }
 .skill-pills span:not(:last-child)::after { content: "·"; position: absolute; right: -9px; color: var(--gold); }
-.expertise-row:nth-child(2) .skill-pills span { border-color: transparent; color: var(--muted); }
+.expertise-row:nth-child(2) .skill-pills span { border-color: transparent; color: #d5ddce; }
 .skill-pills span:hover { transform: translateY(-2px); color: var(--ink); }
-.expertise-row:nth-child(2) .skill-pills span:hover { color: var(--ink); }
+.expertise-row:nth-child(2) .skill-pills span:hover { color: var(--paper-bright); }
 
 .work { padding: 135px 0 65px; border-top: 1px solid rgba(38,53,32,.07); border-bottom: 1px solid rgba(38,53,32,.08); background: radial-gradient(circle at 10% 4%, rgba(255,255,255,.72), transparent 26%), #e9ede3; color: var(--ink); }
 .work .section-kicker, .work-heading > p { color: var(--muted); }
@@ -674,7 +673,7 @@ p { text-wrap: pretty; }
   .project-card.reveal.is-visible:hover { transform: perspective(1100px) translate3d(0, 0, 0) scale(1); border-color: rgba(38,53,32,.13); box-shadow: 0 24px 70px rgba(49,65,42,.085), inset 0 1px 0 rgba(255,255,255,.75); }
   .project-card:hover::before { opacity: 0; transform: translateX(-50%) scaleX(0); }
   .project-card:hover .line-icon { transform: none; background: transparent; }
-  .expertise-list.is-visible .expertise-row:hover { transform: translateY(0) scale(1); border-color: transparent; box-shadow: none; }
+  .expertise-list.is-visible .expertise-row:hover { transform: translateY(0) scale(1); border-color: rgba(54,70,47,.14); box-shadow: none; }
   .expertise-list.is-visible .expertise-row:nth-child(2):hover { transform: translateY(0) scale(1); }
   .expertise-row:hover .expertise-icon { transform: none; background: #f6f7f1; color: #667659; }
   .expertise-row:nth-child(2):hover .expertise-icon { transform: none; background: #f6f7f1; color: #667659; }
