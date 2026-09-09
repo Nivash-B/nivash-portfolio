@@ -36,7 +36,7 @@
 
 * { box-sizing: border-box; }
 ::selection { background: var(--gold); color: var(--ink); }
-html { scroll-behavior: auto; overflow-x: clip; overscroll-behavior-y: none; background-color: var(--ink); color-scheme: dark; }
+html { scroll-behavior: auto; overflow-x: clip; overscroll-behavior-y: none; touch-action: pan-y pinch-zoom; background-color: var(--ink); color-scheme: dark; }
 body {
   margin: 0;
   background: var(--ink);
@@ -44,8 +44,9 @@ body {
   font-family: var(--sans);
   font-size: 16px;
   line-height: 1.65;
-  overflow-x: hidden;
+  overflow-x: clip;
   overscroll-behavior-y: none;
+  touch-action: pan-y pinch-zoom;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
