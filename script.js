@@ -604,6 +604,78 @@ if (projectGrid && projectsToggle) {
   updateProjectsToggle();
 }
 
+const contactAssistant = document.getElementById('contact-assistant');
+const contactAssistantTrigger = document.querySelector('.contact-assistant-trigger');
+const contactAssistantClose = contactAssistant?.querySelector('[data-contact-assistant-close]');
+const contactAssistantChoices = contactAssistant?.querySelectorAll('.contact-assistant-choice') || [];
+let contactAssistantScrollPosition = 0;
+let contactAssistantCloseTimer;
+
+function unlockContactAssistantPage() {
+  const wasLocked = document.body.classList.contains('contact-assistant-open');
+  document.documentElement.classList.remove('contact-assistant-open');
+  document.body.classList.remove('contact-assistant-open');
+  document.body.style.removeProperty('top');
+
+  if (wasLocked) {
+    const root = document.documentElement;
+    const previousScrollBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(0, contactAssistantScrollPosition);
+    if (previousScrollBehavior) root.style.scrollBehavior = previousScrollBehavior;
+    else root.style.removeProperty('scroll-behavior');
+    refreshPageScrollRange();
+  }
+
+  contactAssistantTrigger?.focus({ preventScroll: true });
+}
+
+function finishContactAssistantClose() {
+  if (!contactAssistant) return;
+  if (typeof contactAssistant.close === 'function' && contactAssistant.open) contactAssistant.close();
+  else {
+    contactAssistant.removeAttribute('open');
+    unlockContactAssistantPage();
+  }
+}
+
+function closeContactAssistant() {
+  if (!contactAssistant?.hasAttribute('open')) return;
+  clearTimeout(contactAssistantCloseTimer);
+  contactAssistant.classList.remove('is-open');
+  contactAssistantCloseTimer = setTimeout(finishContactAssistantClose, 240);
+}
+
+function openContactAssistant() {
+  if (!contactAssistant || contactAssistant.hasAttribute('open')) return;
+  clearTimeout(contactAssistantCloseTimer);
+  closeMenu();
+  contactAssistantScrollPosition = window.scrollY;
+  document.body.style.top = `-${contactAssistantScrollPosition}px`;
+  document.documentElement.classList.add('contact-assistant-open');
+  document.body.classList.add('contact-assistant-open');
+
+  if (typeof contactAssistant.showModal === 'function') contactAssistant.showModal();
+  else contactAssistant.setAttribute('open', '');
+
+  requestAnimationFrame(() => {
+    contactAssistant.classList.add('is-open');
+    contactAssistantClose?.focus({ preventScroll: true });
+  });
+}
+
+contactAssistantTrigger?.addEventListener('click', openContactAssistant);
+contactAssistantClose?.addEventListener('click', closeContactAssistant);
+contactAssistant?.addEventListener('cancel', (event) => {
+  event.preventDefault();
+  closeContactAssistant();
+});
+contactAssistant?.addEventListener('click', (event) => {
+  if (event.target === contactAssistant) closeContactAssistant();
+});
+contactAssistant?.addEventListener('close', unlockContactAssistantPage);
+contactAssistantChoices.forEach((choice) => choice.addEventListener('click', closeContactAssistant));
+
 const actionTargets = document.querySelectorAll('a[href], button:not([disabled])');
 
 actionTargets.forEach((target) => {
