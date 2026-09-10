@@ -202,34 +202,9 @@ document.querySelectorAll('[data-scroll-top]').forEach((link) => {
   });
 });
 
-let wheelScrollFrame;
-let pendingWheelMovement = 0;
-
-window.addEventListener('wheel', (event) => {
-  cancelPageScroll();
-  if (
-    !event.cancelable
-    || document.body.classList.contains('menu-open')
-    || event.ctrlKey
-    || Math.abs(event.deltaY) <= Math.abs(event.deltaX)
-  ) return;
-
-  event.preventDefault();
-  const deltaMultiplier = event.deltaMode === WheelEvent.DOM_DELTA_LINE
-    ? 42
-    : event.deltaMode === WheelEvent.DOM_DELTA_PAGE
-      ? window.innerHeight * .9
-      : 1.65;
-  const movement = event.deltaY * deltaMultiplier;
-  pendingWheelMovement += Math.sign(movement) * Math.min(Math.abs(movement), window.innerHeight * .9);
-
-  if (wheelScrollFrame) return;
-  wheelScrollFrame = requestAnimationFrame(() => {
-    window.scrollBy({ top: pendingWheelMovement, behavior: 'auto' });
-    pendingWheelMovement = 0;
-    wheelScrollFrame = undefined;
-  });
-}, { passive: false });
+// Let every browser handle wheel and trackpad momentum natively. The listener
+// only cancels an in-progress anchor animation when the visitor takes control.
+window.addEventListener('wheel', cancelPageScroll, { passive: true });
 window.addEventListener('touchstart', cancelPageScroll, { passive: true });
 
 // iOS WebKit can ignore CSS overscroll containment on the root scroller.
@@ -347,6 +322,7 @@ let scrollFrame;
 let maxPageScroll = 1;
 let observedPageHeight = 0;
 let pageResizeObserver;
+let pageResizeFrame;
 
 function refreshPageScrollRange() {
   maxPageScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
@@ -728,8 +704,12 @@ if ('ResizeObserver' in window) {
     const entry = entries[0];
     const borderBox = Array.isArray(entry.borderBoxSize) ? entry.borderBoxSize[0] : entry.borderBoxSize;
     observedPageHeight = Math.ceil(borderBox?.blockSize || entry.contentRect.height);
-    maxPageScroll = Math.max(1, observedPageHeight - window.innerHeight);
-    updateScrollDetails();
+    if (pageResizeFrame) return;
+    pageResizeFrame = requestAnimationFrame(() => {
+      maxPageScroll = Math.max(1, observedPageHeight - window.innerHeight);
+      updateScrollDetails();
+      pageResizeFrame = undefined;
+    });
   });
   pageResizeObserver.observe(document.body);
 } else {

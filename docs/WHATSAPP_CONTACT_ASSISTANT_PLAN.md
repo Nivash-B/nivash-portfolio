@@ -97,6 +97,18 @@ No backend or API is required. WhatsApp receives only the message the visitor ex
 - [x] Run interaction and responsive tests.
 - [x] Commit and push.
 
+## Cross-browser parity review
+
+| Requirement | Implementation evidence | Verification |
+|---|---|---|
+| Native wheel and trackpad scrolling | Passive `wheel` listener only cancels scripted anchor motion; browser momentum remains native | Chromium, Edge, Firefox, and WebKit desktop |
+| Mobile touch scrolling | Root uses `pan-y`; iOS boundary guard prevents only overscroll beyond the document | 320, 360, 375, 390, 412, 430, and 768 px layouts |
+| Stable Safari tap targets | Mobile sections use stable document geometry instead of off-screen size estimation | Contact trigger completes pointer down/up/click on small WebKit viewports |
+| Responsive contact assistant | Native dialog, scroll lock/restore, stacked mobile options, viewport bounds | Hiring and Project flows on every matrix case |
+| Clean runtime | ResizeObserver DOM writes are scheduled outside its delivery callback | No console warnings, page errors, or failed local requests |
+
+No implementation gaps remain in the reviewed v1 scope.
+
 ## Open questions
 
 None. The user locked the v1 choices to Hiring and Project only.
